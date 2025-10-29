@@ -6,37 +6,35 @@ import { DashboardPage } from '../pageObjects/Dashboard';
 import { CartPage } from '../pageObjects/CartPage';
 import { CheckOutPage } from '../pageObjects/CheckOutPage';
 import { OrderHistoryPage } from '../pageObjects/OrderHistoryPage';
+import { POManager } from '../pageObjects/POManager';
 
 test('Test 2', async({page}) => {
     
     //Login to application.
-    const loginPage = new LoginPage(page);
-    await loginPage.goto();
-    await loginPage.login('abc9782@gmail.com', 'Demo@123');    
+    const poManager = new POManager(page);
+
+    await poManager.loginPage.goto();
+    await poManager.loginPage.login('abc9782@gmail.com', 'Demo@123');    
 
     //Dashboard page
-    const dashboardPage = new DashboardPage(page);
-    await dashboardPage.printAllProducts();
+    await poManager.dashboardPage.printAllProducts();
 
     const product = 'ADIDAS ORIGINAL';
-    await dashboardPage.addProductToCart(product);
+    await poManager.dashboardPage.addProductToCart(product);
 
     //Cart Page
-    const cartPage = new CartPage(page);
-    await cartPage.gotoCart();
+    await poManager.cartPage.gotoCart();
 
-    expect(await cartPage.verifyProductInCart(product)).toBeTruthy(); 
+    expect(await poManager.cartPage.verifyProductInCart(product)).toBeTruthy(); 
 
     //Verify checkout
-    const checkOutPage = new CheckOutPage(page);
-    await checkOutPage.goToCheckout();
-    await checkOutPage.selectCountry('ind');
-    const orderId = await checkOutPage.placeOrderAndReturnID();
+    await poManager.checkOutPage.goToCheckout();
+    await poManager.checkOutPage.selectCountry('ind');
+    const orderId = await poManager.checkOutPage.placeOrderAndReturnID();
 
 
     //Verify the order id in the orders page.
-    const orderHistoryPage = new OrderHistoryPage(page);
-    await orderHistoryPage.gotoOrderHistory();
-    expect(await orderHistoryPage.isOrderPresent(orderId)).toBeTruthy();
+    await poManager.orderHistoryPage.gotoOrderHistory();
+    expect(await poManager.orderHistoryPage.isOrderPresent(orderId)).toBeTruthy();
 });
 
