@@ -2,7 +2,12 @@
 
 import { test, expect } from '@playwright/test';
 
-test('Test 2', async({page}) => {
+test('Test 2', async({playwright: playwright}) => {
+    const browser = await playwright.chromium.launch({ args: ['--start-maximized'], headless: false });
+    const context = await browser.newContext();
+    const page = await context.newPage();
+
+
     await page.goto('https://rahulshettyacademy.com/client/#/auth/login');
     await page.locator(`#userEmail`).fill('abc9782@gmail.com');
     await page.locator(`#userPassword`).fill('Demo@123');

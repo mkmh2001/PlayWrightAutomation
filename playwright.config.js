@@ -33,7 +33,7 @@ export default defineConfig({
     trace: 'retain-on-failure',
     headless: false,
     screenshot: 'on',
-
+    ...devices['iph ']
   },
 
   /* Configure projects for major browsers */
