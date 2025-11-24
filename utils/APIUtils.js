@@ -6,7 +6,7 @@ export class APIUtil {
     }
 
     async getToken(){
-        const loginResponse = await this.apiContext.post('https://rahulshettyacademy.com/api/ecom/auth/login', {data: this.loginPayload});
+        const loginResponse = await this.apiContext.post('https://rahulshettyacademy.com/api/ecom/auth/login', {headers: {Authorization: token},data: this.loginPayload});
         const loginResponseJson = await loginResponse.json();
         const token = loginResponseJson.token;
         console.log(`Token -> ${token}`);
